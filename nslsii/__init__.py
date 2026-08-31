@@ -49,7 +49,7 @@ def configure_base(
     redis_ssl=False,
     redis_prefix="",
     redis_db: int = 0,
-    profile_collection_dir=None,
+    startup_dir=None,
 ):
     """
     Perform base setup and instantiation of important objects.
@@ -122,8 +122,8 @@ def configure_base(
         Set the prefix for the Redis key. Typically the endstation prefix, e.g. "arpes-". "" by default.
     redis_db : int, optional
         Set the database index for the Redis connection. Defaults to 0.
-    profile_collection_dir : Path, optional
-        None by default, path to the profile collection being used
+    startup_dir : Path, optional
+        None by default, path to the repository being used
     Returns
     -------
     names : list
@@ -315,10 +315,10 @@ def configure_base(
 
     import_star(bluesky.simulators, ns)
 
-    # store git profile-collection metadata in RE
-    if profile_collection_dir:
-        ref, branch, dirty = git_info(profile_collection_dir)
-        RE.md['profile_collection_git_metadata'] = {'ref': ref, 'branch': branch, 'dirty': dirty}
+    # store startup code git repository metadata in RE
+    if startup_dir:
+        ref, branch, dirty = git_info(startup_dir)
+        RE.md['startup_git_metadata'] = {'ref': ref, 'branch': branch, 'dirty': dirty}
 
     user_ns.update(ns)
     return list(ns)
